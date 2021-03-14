@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+     "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+     "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<definition name="mngr.cmmn.menu.lst" extends="mngr">
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/mngr/cmmn/menu/javascript/menuLst_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/mngr/cmmn/menu/menuLst.jsp" />
+	</definition>
+	
+	
+	
+</tiles-definitions>

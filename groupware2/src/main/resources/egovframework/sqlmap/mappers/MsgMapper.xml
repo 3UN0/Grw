@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="MsgDAO">
+	
+
+	<sql id="msgColumns">
+		MSG_ID			as	msgId		,
+		MESSAGE			as	message		,
+		SENDER_ID		as	senderId	,
+		RECEIVER_ID		as	receiverId	,
+		SND_DATE		as	sndDate		,
+		RCV_DATE		as	rcvDate		,
+		DEL_DATE		as	delDate		,
+		RCV_YN			as	rcvYn		,
+		DEL_YN			as	delYn
+	
+	</sql>
+	
+	<select id="rcvMsgLst" parameterType="egovframework.groupware.vo.MessageVO" resultType="egovframework.groupware.vo.MessageVO">
+		SELECT
+			*
+		FROM
+		(
+			SELECT
+				(SELECT USER_NM FROM TBL_USER WHERE USER_ID=A.SENDER_ID) SENDER ,			
+				<include refid="msgColumns" />
+			FROM
+				TBL_MSG A
+			WHERE
+				RECEIVER_ID = #{receiverId}
+			AND
+				DEL_YN	=	'N'
+			ORDER BY
+				SND_DATE DESC
+		)
+		WHERE
+			ROWNUM BETWEEN #{firstIndex} AND #{lastIndex}
+	</select>
+	
+	<select id="sndMsgLst" parameterType="egovframework.groupware.vo.MessageVO" resultType="egovframework.groupware.vo.MessageVO">
+		SELECT
+			*
+		FROM
+		(
+			SELECT
+				(SELECT USER_NM FROM TBL_USER WHERE USER_ID=A.RECEIVER_ID) RECEIVER ,
+				<include refid="msgColumns" />
+			FROM
+				TBL_MSG A
+			WHERE
+				SENDER_ID = #{senderId}
+			AND
+				DEL_YN	=	'N'
+			ORDER BY
+				SND_DATE DESC
+		)
+		WHERE
+			ROWNUM BETWEEN #{firstIndex} AND #{lastIndex}
+	</select>
+	
+	<select id="rcvMsgLstCnt" parameterType="egovframework.groupware.vo.MessageVO" resultType="int">
+		SELECT 
+			COUNT(1)	as	totalCnt
+		FROM
+			TBL_MSG
+		WHERE
+			RECEIVER_ID = #{receiverId}
+		 AND
+		 	DEL_YN	=	'N'
+	
+	</select>
+	
+	
+	<select id="sndMsgLstCnt" parameterType="egovframework.groupware.vo.MessageVO" resultType="int">
+		SELECT 
+			COUNT(1)	as	totalCnt
+		FROM
+			TBL_MSG
+		WHERE
+			SENDER_ID = #{senderId}
+		 AND
+		 	DEL_YN	=	'N'
+	
+	</select>
+	
+	<select id="msgSel" parameterType="egovframework.groupware.vo.MessageVO" resultType="egovframework.groupware.vo.MessageVO">
+		SELECT
+			(SELECT USER_NM FROM TBL_USER WHERE USER_ID=A.RECEIVER_ID) RECEIVER ,
+			(SELECT USER_NM FROM TBL_USER WHERE USER_ID=A.SENDER_ID) SENDER ,
+			<include refid="msgColumns" />
+		FROM
+			TBL_MSG A
+		WHERE
+			MSG_ID	=	#{msgId}
+	</select>
+	
+	<insert id="msgWrt" parameterType="egovframework.groupware.vo.MessageVO">
+		INSERT INTO
+			 TBL_MSG
+		(
+			MSG_ID				,
+			MESSAGE				,
+			SENDER_ID			,
+			RECEIVER_ID			,
+			SND_DATE			,
+			RCV_YN				,
+			DEL_YN
+		)
+		VALUES (
+			msg_code.next_value	,
+			#{message}			,
+			#{senderId}			,
+			#{receiverId}		,
+			SYS_DATETIME		,
+			'N'					,
+			'N'
+		)
+			
+	</insert> 
+	
+	
+	<update id="msgUpd" parameterType="egovframework.groupware.vo.MessageVO">
+		UPDATE
+			TBL_MSG
+		SET
+			RCV_YN		=	'Y'	,
+		 	RCV_DATE	=	SYS_DATETIME
+		WHERE
+			MSG_ID	=	#{msgId}
+	</update>
+
+
+	<delete id="msgDel" parameterType="egovframework.groupware.vo.MessageVO">
+		UPDATE
+			TBL_MSG
+		SET
+			DEL_DATE	=	SYS_DATETIME,
+			DEL_YN		=	'Y'
+		WHERE
+			MSG_ID		=	${msgId}
+	</delete>
+
+</mapper>

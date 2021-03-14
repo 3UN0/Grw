@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardDAO">
+
+	<sql id="boardColumns">
+		BRD_ID 		as	brdId,
+		BRD_NM		as	brdNm
+	</sql>
+	
+	<sql id="contentColumns">
+		CONTENT_ID		as	contentId,
+		BRD_ID			as	brdId,
+		TITLE			as 	title,
+		CONTENTS		as	contents,
+		USER_ID			as	userId,
+		MOD_ID			as	modId,
+		REG_IP			as	regIp,
+		REG_DATE		as	regDate,
+		MOD_DATE		as	modDate,
+		FILE_ORI_NAME	as	fileOriName,
+		FILE_NAME		as	fileName,
+		FILE_URL		as	fileUrl,
+		DEL_YN			as	delYn,
+		HITS			as	hits,
+		FILE_ID			as 	fileId
+	</sql>
+	
+	
+	<sql id="fileColumns">
+		file_id				as	fileId,
+		content_id			as	contentId,
+		orig_file_name		as	origFileName,
+		stored_file_name	as	storedFileName,
+		file_size			as	fileSize,
+		reg_date			as	regDate,
+		del_yn				as	delYn,
+		
+	</sql>
+	
+
+	<select id="contSearchLst" parameterType="egovframework.groupware.vo.ContSearchVO" resultType="egovframework.groupware.vo.ContSearchVO">
+		SELECT
+			*
+		FROM
+		(
+			SELECT
+				(SELECT USER_NM FROM TBL_USER WHERE USER_ID=A.USER_ID) USERNAME ,
+				<include refid="contentColumns" />
+			FROM
+				TBL_CONT A
+			WHERE
+				BRD_ID	=	#{brdId}
+			AND
+				DEL_YN	=	'N'
+		
+			<if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(schKeyValue)">
+				AND 
+				<choose>
+					<when test="schKeyWord == 'title'">
+						TITLE 
+					</when>
+					<otherwise>
+						CONTENTS
+					</otherwise>
+				</choose>
+				LIKE '%' || #{schKeyValue} || '%'
+			</if>
+			ORDER BY
+				REG_DATE DESC
+		)
+		WHERE
+			ROWNUM BETWEEN #{firstIndex} AND #{lastIndex}
+	</select>
+
+	<select id="contSearchCnt" parameterType="egovframework.groupware.vo.ContSearchVO" resultType="int">
+		SELECT
+			COUNT(1)	as	totalCnt
+		FROM
+			TBL_CONT
+		WHERE
+			BRD_ID	=	#{brdId}
+		AND
+			DEL_YN	= 'N'
+			<if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(schKeyValue)">
+				AND 
+				<choose>
+					<when test="schKeyWord == 'title'">
+						TITLE 
+					</when>
+					<otherwise>
+						CONTENTS
+					</otherwise>
+				</choose>
+				LIKE '%' || #{schKeyValue} || '%'
+			</if>
+	</select>
+	
+	
+	<select id="contSel" parameterType="egovframework.groupware.vo.ContentVO" resultType="egovframework.groupware.vo.ContentVO">
+		SELECT
+			(SELECT USER_NM FROM TBL_USER WHERE USER_ID=A.USER_ID) USERNAME ,
+			<include refid="contentColumns" />
+			
+		FROM
+			TBL_CONT A
+		WHERE
+			CONTENT_ID	=	#{contentId}
+	</select>
+	
+	
+	<insert id="contWrt" parameterType="egovframework.groupware.vo.ContentVO">
+		INSERT INTO
+			TBL_CONT
+			(
+				CONTENT_ID		,
+				BRD_ID			,
+				TITLE			,
+				CONTENTS		,
+				USER_ID			,
+				MOD_ID			,
+				REG_IP			,
+				REG_DATE		,
+				MOD_DATE		,
+				FILE_ORI_NAME	,
+				FILE_NAME		,
+				FILE_URL		,
+				DEL_YN			,
+				HITS		
+			)
+		VALUES(
+			code.next_value		,
+			#{brdId}			,
+			#{title}			,
+			#{contents}			,
+			#{userId}			,
+			#{userId}			,
+			#{regIp}			,
+			SYS_DATETIME		,
+			SYS_DATETIME		,
+			#{fileOriName}		,
+			#{fileName}			,
+			#{fileUrl}			,
+			'N'					,
+			0
+		)
+	</insert>
+	
+	
+	<update id="contUpd" parameterType="egovframework.groupware.vo.ContentVO">
+	
+		UPDATE
+			TBL_CONT
+		SET
+			TITLE			=	#{title}	,
+			CONTENTS		=	#{contents}	,
+			FILE_ORI_NAME	=	#{fileOriName},
+			FILE_NAME		=	#{fileName},
+			FILE_URL		=	#{fileUrl},
+			MOD_DATE		=	SYS_DATETIME
+		WHERE
+			CONTENT_ID	=	#{contentId}	
+	
+	</update>
+	
+	
+	<delete id="contDel" parameterType="egovframework.groupware.vo.ContentVO">
+	
+		UPDATE
+			TBL_CONT
+		SET
+			MOD_DATE	=	SYS_DATETIME	,
+			DEL_YN		=	'Y'
+		WHERE
+			CONTENT_ID	=	#{contentId}	
+
+	</delete>
+	
+	
+	<update id="hitsUpd" parameterType="egovframework.groupware.vo.ContentVO">
+		UPDATE
+			TBL_CONT
+		SET
+			HITS	=	HITS + 1
+		WHERE
+			CONTENT_ID	=	#{contentId}	
+	</update>
+	
+	<select id="fileLst" parameterType="egovframework.groupware.vo.FileVO" resultType="egovframework.groupware.vo.FileVO">
+		SELECT
+			*
+		FROM
+			TBL_FILE
+		WHERE
+			CONTENT_ID	=	#{contentId}	
+		 AND
+			DEL_YN	=	'N'
+	</select>
+	
+	<select id="fileSel" parameterType="egovframework.groupware.vo.FileVO" resultType="egovframework.groupware.vo.FileVO">
+		SELECT
+			*
+		FROM
+			TBL_FILE
+		WHERE
+			FILE_ID	=	#{fileId}
+	</select>
+	
+	<delete id="fileDel" parameterType="egovframework.groupware.vo.FileVO">
+		UPDATE
+			TBL_FILE
+		SET
+			DEL_YN	=	'Y'
+		WHERE
+			FILE_ID	=	#{fileId}
+	
+	</delete>
+	
+	<insert id="insertFile" parameterType="hashMap"	>
+		INSERT INTO TBL_FILE
+		(
+			FILE_ID				,
+			CONTENT_ID			,
+			ORIG_FILE_NAME		,
+			STORED_FILE_NAME	,
+			FILE_SIZE			,
+			REG_DATE
+		) VALUES (
+			FILE_CODE.NEXT_VALUE	,
+			code.current_value		,
+			#{origFileName}			,
+			#{storedFileName}		,
+			#{fileSize}				,
+			SYS_DATETIME
+		)
+		<!-- CONTENTID 수정 필요 (작성 / 수정) -->
+	</insert>
+	
+	
+	<select id="findContId" resultType="egovframework.groupware.vo.FileVO">
+		SELECT
+		 	*
+		FROM
+			TBL_FILE
+		WHERE
+			CONTENT_ID	=	#{contentId}
+	</select>
+	
+	
+	<delete id="deleteFile" parameterType="egovframework.groupware.vo.FileVO">
+		DELETE FROM
+			TBL_FILE
+		WHERE
+			CONTENT_ID	=	#{contentId}
+	</delete>
+	
+	
+	<delete id="fileDelete" parameterType="egovframework.groupware.vo.ContentVO">
+		UPDATE
+			TBL_CONT
+		SET
+			FILE_ORI_NAME	=	NULL,
+			FILE_NAME		=	NULL,
+			FILE_URL		=	NULL
+		WHERE
+			CONTENT_ID	=	#{contentId}	
+	</delete>
+	
+
+</mapper>

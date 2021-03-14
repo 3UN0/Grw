@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SignDAO">
+
+	
+	<sql id="signColumns">
+		SID				as	sid,
+		SIGN_ID			as	signId,
+		TITLE			as 	title,
+		USER_ID			as	userId,
+		CONTENTS		as	contents,
+		REG_DATE		as	regDate,
+		MOD_DATE		as	modDate,
+		MID_SIGN		as	midSign,
+		FNL_SIGN		as	fnlSign,
+		ACP_ID			as	acpId
+		
+	</sql>
+	
+	<sql id="signidColumns">
+		SIGN_ID			as	signId,
+		SIGN_NM			as	signNm
+	</sql>
+	
+	
+	<sql id="acpidColumns">
+		ACP_ID			as	acpId,
+		ACP_NM			as	acpNm
+	</sql>
+	
+
+	<select id="signIngLst" parameterType="egovframework.groupware.vo.SignVO" resultType="egovframework.groupware.vo.SignVO">
+		SELECT
+			*
+		FROM
+		(
+			SELECT
+				(SELECT SIGN_NM FROM TBL_SIGN_ID WHERE SIGN_ID=A.SIGN_ID) SIGNNAME ,
+				(SELECT ACP_NM FROM TBL_ACP_ID WHERE ACP_ID=A.ACP_ID) ACPNAME ,
+				<include refid="signColumns" />
+			FROM
+				TBL_SIGN A
+			WHERE
+				USER_ID = #{userId}
+			 AND (
+				  ACP_ID	=	'proceed'
+				OR
+				  ACP_ID	=	'accept' )
+			ORDER BY
+				REG_DATE DESC
+		)
+		WHERE
+			ROWNUM BETWEEN #{firstIndex} AND #{lastIndex}
+	</select>
+
+	
+	<select id="signLstCnt" parameterType="egovframework.groupware.vo.SignVO" resultType="int">
+		SELECT 
+			COUNT(1)	as	totalCnt
+		FROM
+			TBL_SIGN
+		WHERE
+			USER_ID = #{userId}
+		 AND (
+			  ACP_ID	=	'proceed'
+		 	 OR
+			  ACP_ID	=	'accept' )
+	</select>
+	
+	
+	<select id="signReqLst" parameterType="egovframework.groupware.vo.SignVO" resultType="egovframework.groupware.vo.SignVO">
+		SELECT
+			*
+		FROM
+		(
+			SELECT
+				(SELECT SIGN_NM FROM TBL_SIGN_ID WHERE SIGN_ID=A.SIGN_ID) SIGNNAME ,
+				(SELECT ACP_NM FROM TBL_ACP_ID WHERE ACP_ID=A.ACP_ID) ACPNAME ,
+				<include refid="signColumns" />
+			FROM
+				TBL_SIGN A
+			WHERE
+				MID_SIGN	=	#{midSign}
+			 AND
+			 	ACP_ID		=	'proceed'
+			ORDER BY
+				REG_DATE DESC
+		)
+		WHERE
+			ROWNUM BETWEEN #{firstIndex} AND #{lastIndex}
+	</select>
+
+
+	<select id="signReqLstCnt" parameterType="egovframework.groupware.vo.SignVO" resultType="int">
+		SELECT 
+			COUNT(1)	as	totalCnt
+		FROM
+			TBL_SIGN
+		WHERE
+			MID_SIGN	=	#{midSign}
+		 AND
+			ACP_ID		=	'proceed'
+	</select>
+	
+	
+	<select id="signFnlReqLst" parameterType="egovframework.groupware.vo.SignVO" resultType="egovframework.groupware.vo.SignVO">
+		SELECT
+			*
+		FROM
+		(
+			SELECT
+				(SELECT SIGN_NM FROM TBL_SIGN_ID WHERE SIGN_ID=A.SIGN_ID) SIGNNAME ,
+				(SELECT ACP_NM FROM TBL_ACP_ID WHERE ACP_ID=A.ACP_ID) ACPNAME ,
+				<include refid="signColumns" />
+			FROM
+				TBL_SIGN A
+			WHERE
+				FNL_SIGN	=	#{fnlSign}
+			 AND
+			 	ACP_ID		=	'accept'
+			ORDER BY
+				REG_DATE DESC
+		)
+		WHERE
+			ROWNUM BETWEEN #{firstIndex} AND #{lastIndex}
+	</select>
+
+
+	<select id="signFnlReqLstCnt" parameterType="egovframework.groupware.vo.SignVO" resultType="int">
+		SELECT 
+			COUNT(1)	as	totalCnt
+		FROM
+			TBL_SIGN
+		WHERE
+			FNL_SIGN	=	#{fnlSign}
+		 AND
+			ACP_ID		=	'accept'
+	</select>
+	
+	
+	<select id="signDoneLst" parameterType="egovframework.groupware.vo.SignVO" resultType="egovframework.groupware.vo.SignVO">
+		SELECT
+			*
+		FROM
+		(
+			SELECT
+				(SELECT SIGN_NM FROM TBL_SIGN_ID WHERE SIGN_ID=A.SIGN_ID) SIGNNAME ,
+				(SELECT ACP_NM FROM TBL_ACP_ID WHERE ACP_ID=A.ACP_ID) ACPNAME ,
+				<include refid="signColumns" />
+			FROM
+				TBL_SIGN A
+			WHERE
+				USER_ID 	=	#{userId}
+			 AND
+				(
+				  ACP_ID	=	'acceptfnl'
+				OR
+				  ACP_ID	=	'return' )
+			ORDER BY
+				REG_DATE DESC
+		)
+		WHERE
+			ROWNUM BETWEEN #{firstIndex} AND #{lastIndex}
+	</select>
+	
+	
+	<select id="signDoneLstCnt" parameterType="egovframework.groupware.vo.SignVO" resultType="int">
+		SELECT 
+			COUNT(1)	as	totalCnt
+		FROM
+			TBL_SIGN
+		WHERE
+			USER_ID	 	= 	#{userId}
+		 AND
+			(
+			  ACP_ID	=	'acceptfnl'
+			OR
+			  ACP_ID	=	'return'  )
+	</select>
+
+	
+	<select id="signSel" parameterType="egovframework.groupware.vo.SignVO" resultType="egovframework.groupware.vo.SignVO">
+		SELECT
+			(SELECT USER_NM FROM TBL_USER WHERE USER_ID=A.USER_ID) USERNAME ,
+			(SELECT USER_NM FROM TBL_USER WHERE USER_ID=A.MID_SIGN) MIDNM ,
+			(SELECT USER_NM FROM TBL_USER WHERE USER_ID=A.FNL_SIGN) FNLNM ,
+			(SELECT SIGN_NM FROM TBL_SIGN_ID WHERE SIGN_ID=A.SIGN_ID) SIGNNAME ,
+			(SELECT ACP_NM FROM TBL_ACP_ID WHERE ACP_ID=A.ACP_ID) ACPNAME ,
+			<include refid="signColumns" />
+			
+		FROM
+			TBL_SIGN A
+		WHERE
+			SID	=	#{sid}
+	</select>
+	
+	
+	<insert id="signWrt" parameterType="egovframework.groupware.vo.SignVO">
+		INSERT INTO
+			TBL_SIGN
+			(
+				SID			,
+				SIGN_ID		,
+				TITLE		,
+				USER_ID		,
+				CONTENTS	,
+				REG_DATE	,
+				MOD_DATE	,
+				MID_SIGN	,
+				FNL_SIGN	,
+				ACP_ID
+			)
+		VALUES(
+			sid_code.next_value	,
+			#{signId}			,
+			#{title}			,
+			#{userId}			,
+			#{contents}			,	
+			SYS_DATETIME		,
+			SYS_DATETIME		,	
+			#{midSign}			,
+			#{fnlSign}			,
+			'proceed'		
+			
+		)
+	</insert>
+	
+	<!-- 
+	<update id="signUpd" parameterType="egovframework.groupware.vo.SignVO">
+	
+		UPDATE
+			TBL_CONT
+		SET
+			TITLE			=	#{title}	,
+			CONTENTS		=	#{contents}	,
+			FILE_ORI_NAME	=	#{fileOriName},
+			FILE_NAME		=	#{fileName},
+			FILE_URL		=	#{fileUrl},
+			MOD_DATE		=	SYS_DATETIME
+		WHERE
+			SIGN_ID	=	#{signId}
+	
+	</update>
+	 -->
+	
+	<select id="signidLst" parameterType="egovframework.groupware.vo.SignIdVO" resultType="egovframework.groupware.vo.SignIdVO">
+		SELECT
+			<include refid="signidColumns" />
+		FROM
+			TBL_SIGN_ID
+		ORDER BY
+			SIGN_ID ASC
+	</select>
+
+	<select id="signidCnt" parameterType="egovframework.groupware.vo.SignIdVO" resultType="int">
+		SELECT
+			COUNT(1)	as	totalCnt
+		FROM
+			TBL_SIGN_ID
+	</select>
+
+	
+	<select id="acpidLst" parameterType="egovframework.groupware.vo.AcpIdVO" resultType="egovframework.groupware.vo.AcpIdVO">
+		SELECT
+			<include refid="acpidColumns" />
+		FROM
+			TBL_ACP_ID
+		ORDER BY
+			ACP_ID ASC
+	</select>
+
+
+	<select id="acpidCnt" parameterType="egovframework.groupware.vo.AcpIdVO" resultType="int">
+		SELECT
+			COUNT(1)	as	totalCnt
+		FROM
+			TBL_ACP_ID
+	</select> 
+	
+	
+	<update id="acpSign" parameterType="egovframework.groupware.vo.SignVO">
+		UPDATE
+			TBL_SIGN
+		SET
+			ACP_ID	=	'accept'
+		WHERE
+			SID		=	#{sid}	
+	</update>
+	
+	
+	<update id="acpfnlSign" parameterType="egovframework.groupware.vo.SignVO">
+		UPDATE
+			TBL_SIGN
+		SET
+			ACP_ID	=	'acceptfnl'
+		WHERE
+			SID		=	#{sid}	
+	</update>
+	
+	
+	<!-- <update id="acpSign" parameterType="egovframework.groupware.vo.SignVO">
+		UPDATE
+			TBL_SIGN
+		<set>
+			<if test="acpId == 'proceed'">
+				ACP_ID	=	'accept'
+			</if>
+			<if test="acpId == 'accept'">
+				ACP_ID	=	'acceptfnl'
+			</if>
+		</set>
+		WHERE
+			SID		=	#{sid}	
+	</update> -->
+	
+
+	<update id="returnSign" parameterType="egovframework.groupware.vo.SignVO">
+		UPDATE
+			TBL_SIGN
+		SET
+			ACP_ID	=	'return'
+		WHERE
+			SID		=	#{sid}	
+	</update>
+
+
+</mapper>

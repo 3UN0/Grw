@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+     "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+     "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<definition name="main.main" extends="web_none">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/mngr/main/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/mngr/main/main.jsp" />
+	</definition>
+
+	<definition name="mngr.main.main" extends="mngr">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/mngr/main/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/mngr/main/main.jsp" />
+	</definition>
+	
+	<!-- 추가 -->
+	<!-- 
+	<definition name="user.main.main" extends="mngr">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/user/main/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/user/main/main.jsp" />
+	</definition>
+	
+	<definition name="grw.user.main" extends="mngr">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/user/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/user/main.jsp" />
+	</definition>
+	 -->
+	
+	<definition name="grw.main.main" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/main/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/main/main.jsp" />
+	</definition>
+
+	<definition name="grw.main.uploadForm" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/main/javascript/contWrt_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/main/uploadForm.jsp" />
+	</definition>
+	
+	<definition name="grw.main.samplePage" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/main/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/main/samplePage.jsp" />
+	</definition>
+	
+	<definition name="grw.main.samplePage2" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/main/samplePage2.jsp" />
+	</definition>
+
+	<definition name="grw.downlaod" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/board/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/board/contSel.jsp" />
+	</definition>
+	
+	
+	<definition name="grw.imgDelete" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/board/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/user/userUpd.jsp" />
+	</definition>
+
+
+	<definition name="grw.board.brdLst" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/board/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/board/brdLst.jsp" />
+	</definition>
+	
+	<definition name="grw.board.contSel" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/board/javascript/contSel_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/board/contSel.jsp" />
+	</definition>
+
+	<definition name="grw.board.contWrt" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/board/javascript/contWrt_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/board/contWrt.jsp" />
+	</definition>
+
+	<definition name="grw.board.contUpd" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/board/javascript/contUpd_JS2.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/board/contUpd.jsp" />
+	</definition>
+	
+	
+	<definition name="grw.code.groupLst" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/code/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/code/groupLst.jsp" />
+	</definition>
+	
+	<definition name="grw.code.codeLst" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/code/javascript/codeSel_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/code/codeLst.jsp" />
+	</definition>
+
+	<definition name="grw.code.codeSel" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/code/javascript/codeSel_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/code/codeSel.jsp" />
+	</definition>
+	
+	<definition name="grw.code.grpWrt" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/code/javascript/grpWrt_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/code/grpWrt.jsp" />
+	</definition>
+	
+	<definition name="grw.code.grpUpd" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/code/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/code/grpUpd.jsp" />
+	</definition>
+	
+	
+	<definition name="grw.code.codeWrt" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/code/javascript/codeWrt_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/code/codeWrt.jsp" />
+	</definition>
+
+	<definition name="grw.code.codeUpd" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/code/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/code/codeUpd.jsp" />
+	</definition>
+	
+	
+	
+	<definition name="grw.sign.signIngLst" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/sign/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/sign/signIngLst.jsp" />
+	</definition>
+	
+	<definition name="grw.sign.signReqLst" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/sign/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/sign/signReqLst.jsp" />
+	</definition>
+	
+	<definition name="grw.sign.signFnlReqLst" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/sign/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/sign/signFnlReqLst.jsp" />
+	</definition>
+	
+	<definition name="grw.sign.signDoneLst" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/sign/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/sign/signDoneLst.jsp" />
+	</definition>
+	
+	<definition name="grw.sign.signSel" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/sign/javascript/signSel_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/sign/signSel.jsp" />
+	</definition>
+	
+	<definition name="grw.sign.signWrt" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/sign/javascript/signWrt_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/sign/signWrt.jsp" />
+	</definition>
+	
+
+	<definition name="grw.empl.emplLst" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/empl/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/empl/emplLst.jsp" />
+	</definition>
+	
+	<definition name="grw.empl.emplSel" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/empl/javascript/emplSel_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/empl/emplSel.jsp" />
+	</definition>
+
+	<definition name="grw.empl.emplIns" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/empl/javascript/emplIns_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/empl/emplIns.jsp" />
+	</definition>
+	
+	<definition name="grw.empl.emplUpd" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/empl/javascript/emplUpd_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/empl/emplUpd.jsp" />
+	</definition>
+
+
+	<definition name="grw.msg.msgWrt" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/msg/javascript/msgWrt_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/msg/msgWrt.jsp" />
+	</definition>
+
+	<definition name="grw.msg.rcvMsgLst" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/msg/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/msg/rcvMsgLst.jsp" />
+	</definition>
+
+	<definition name="grw.msg.sndMsgLst" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/msg/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/msg/sndMsgLst.jsp" />
+	</definition>
+
+	<definition name="grw.msg.msgSel" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/msg/javascript/msgSel_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/msg/msgSel.jsp" />
+	</definition>
+
+
+	<definition name="grw.user.UserLogin" extends="web_none">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/main/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/user/UserLogin.jsp" />
+	</definition>
+
+	<definition name="grw.user.UserJoin" extends="web_none">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/main/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/user/UserJoin.jsp" />
+	</definition>
+	
+	<definition name="grw.user.userUpd" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/user/javascript/userUpd_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/user/userUpd.jsp" />
+	</definition>
+	
+	<definition name="grw.user.UserUpdate" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/main/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/user/UserUpdate.jsp" />
+	</definition>
+
+
+	<definition name="grw.part.partLst" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/part/javascript/partSel_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/part/partLst.jsp" />
+	</definition>
+	
+	<definition name="grw.part.partSel" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/part/javascript/partSel_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/part/partSel.jsp" />
+	</definition>
+
+	<definition name="grw.part.partIns" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/part/javascript/partIns_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/part/partIns.jsp" />
+	</definition>
+	
+	<definition name="grw.part.partUpd" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/part/javascript/partUpd_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/part/partUpd.jsp" />
+	</definition>
+
+
+
+	<definition name="grw.pos.posLst" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/pos/javascript/posSel_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/pos/posLst.jsp" />
+	</definition>
+	
+	<definition name="grw.pos.posIns" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/pos/javascript/posIns_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/pos/posIns.jsp" />
+	</definition>
+	
+	<definition name="grw.pos.posSel" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/pos/javascript/posSel_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/pos/posSel.jsp" />
+	</definition>
+
+	
+	<definition name="grw.pos.posUpd" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/pos/javascript/posUpd_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/pos/posUpd.jsp" />
+	</definition>
+	
+	
+	<definition name="grw.schedule.scheduleLst" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/schedule/javascript/schedule_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/schedule/scheduleLst.jsp" />
+	</definition>
+	
+	<definition name="grw.schedule.scheduleWrt" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/schedule/javascript/schedule_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/schedule/scheduleWrt.jsp" />
+	</definition>
+	
+	<definition name="grw.schedule.scheduleSel" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/schedule/javascript/schedule_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/schedule/scheduleSel.jsp" />
+	</definition>
+	
+	<definition name="grw.schedule.scheduleUpd" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/schedule/javascript/schedule_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/schedule/scheduleUpd.jsp" />
+	</definition>
+	
+	
+	<definition name="grw.sche.scheLst" extends="grw">
+		<put-attribute name="title"         value="메인" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/grw/sche/javascript/main_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/grw/sche/scheLst.jsp" />
+	</definition>
+	
+
+</tiles-definitions>

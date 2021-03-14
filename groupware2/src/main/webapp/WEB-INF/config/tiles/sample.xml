@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+     "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+     "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<definition name="mngr.sample.lst" extends="mngr">
+		<put-attribute name="title"         value="sample 목록" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/mngr/sample/javascript/sampleLst_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/mngr/sample/sampleLst.jsp" />
+	</definition>
+	
+	<definition name="mngr.sample.sel" extends="mngr">
+		<put-attribute name="title"         value="sample 상세" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/mngr/sample/javascript/sampleSel_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/mngr/sample/sampleSel.jsp" />
+	</definition>
+	
+	<definition name="mngr.sample.ins" extends="mngr">
+		<put-attribute name="title"         value="sample 등록" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/mngr/sample/javascript/sampleIns_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/mngr/sample/sampleIns.jsp" />
+	</definition>
+	
+	<definition name="mngr.sample.upd" extends="mngr">
+		<put-attribute name="title"         value="sample 수정" />
+		<put-attribute name="javascript"	value="/WEB-INF/jsp/egovframework/mngr/sample/javascript/sampleUpd_JS.jsp" />
+		<put-attribute name="body" 			value="/WEB-INF/jsp/egovframework/mngr/sample/sampleUpd.jsp" />
+	</definition>
+	
+</tiles-definitions>

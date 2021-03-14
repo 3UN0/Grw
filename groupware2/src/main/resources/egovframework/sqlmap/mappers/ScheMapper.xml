@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ScheDAO">
+
+	<sql id="scheColumns">
+		SCHE_ID		as	scheId,
+		SCHE_NM		as	scheNm,
+		CONTENT		as	content,
+		USER_ID		as	userId,
+		START_DATE	as	startDate,
+		END_DATE	as	endDate,
+		DEL_YN		as	delYn
+	</sql>
+	
+	
+	<select id="scheLst" parameterType="Map" resultType="egovframework.groupware.vo.ScheVO">
+		SELECT
+			*
+		FROM
+			TBL_SCHEDL
+		WHERE
+			DEL_YN	=	'N'
+	</select>
+
+
+	<insert id="scheWrt" parameterType="egovframework.groupware.vo.ScheVO">
+		INSERT INTO
+			TBL_SCHEDL
+			(
+				SCHE_ID,
+				SCHE_NM,
+				CONTENT,
+				USER_ID,
+				START_DATE,
+				END_DATE,
+				DEL_YN
+			)
+		VALUES (
+			SCHE_CODE.NEXT_VALUE,
+			#{scheNm},
+			#{content},
+			#{userId},
+			#{startDate},
+			#{endDate},
+			'N'
+		)
+		
+	</insert>
+	
+	
+	<select id="scheSel" parameterType="egovframework.groupware.vo.ScheVO" resultType="egovframework.groupware.vo.ScheVO">
+		SELECT
+			*
+		FROM
+			TBL_SCHEDL
+		WHERE
+			SCHE_ID	=	#{scheId}
+	
+	</select>
+	
+	
+	<update id="scheUpd" parameterType="egovframework.groupware.vo.ScheVO">
+		UPDATE 
+			TBL_SCHEDL
+		SET
+			SCHE_NM 	= #{scheNm},
+			CONTENT 	= #{content},
+			START_DATE 	= #{startDate},
+			END_DATE	= #{endDate}
+		WHERE
+			SCHE_ID = #{scheId}
+	</update>
+	
+	
+	<update id="scheDel" parameterType="egovframework.groupware.vo.ScheVO">
+		UPDATE
+			TBL_SCHEDL
+		SET
+			DEL_YN	=	'Y'
+		WHERE
+			SCHE_ID	=	#{scheId}
+	
+	</update>
+	
+	
+	
+</mapper>

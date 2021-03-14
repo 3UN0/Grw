@@ -1,0 +1,15 @@
+.table-responsive tr{
+	white-space:nowrap;
+}
+
+.white-space-nowrap{
+	white-space:nowrap;
+}
+
+.none {
+	display: none
+}
+
+.online-help{
+	cursor:pointer	
+}

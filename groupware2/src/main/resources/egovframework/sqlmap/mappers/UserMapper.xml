@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserDAO">
+
+	<sql id="userColumns">
+		USER_ID 		as 	userId		,
+		USER_PW 		as 	userPw		,
+		USER_NM 		as 	userNm		,
+		BIRTHDATE 		as 	birthdate	,
+		EMAIL	 		as 	email		,
+		PHONE 			as 	phone		,
+		GENDER 			as 	gender		,
+		IMG_ORI_NAME 	as  imgOriName	,
+		IMG_NAME 		as  imgName		,
+		IMG_URL 		as  imgUrl		,
+		PART_ID 		as 	partId		,
+		POS_ID 			as 	posId		,
+		ADMIN_YN 		as 	adminYn		,
+		USER_IP 		as 	userIp		,
+		ENT_DATE 		as 	entDate		,
+		REG_DATE 		as 	regDate		,
+		UPD_DATE 		as 	updDate		,
+		EXT_DATE		as 	extDate		,
+		DEL_YN			as 	delYn		
+	</sql>
+
+	
+	<sql id="partColumns">
+		PART_ID		as partId	,
+		PART_NM		as partNm
+	</sql>
+	
+	<sql id="posColumns">
+		POS_ID		as posId	,
+		POS_NM		as posNm
+	</sql>
+	
+	
+	<select id="emplSearchLst" parameterType="egovframework.user.vo.UserSearchVO" resultType="egovframework.user.vo.UserSearchVO">
+		SELECT
+			*
+		FROM
+		(
+			SELECT
+				USER_ID,
+				USER_NM,
+				(SELECT PART_NM FROM TBL_PART WHERE PART_ID=A.PART_ID) PARTNAME ,
+				(SELECT POS_NM FROM TBL_POS WHERE POS_ID=A.POS_ID) POSNAME ,
+				EMAIL,
+				PHONE
+			FROM
+				TBL_USER A
+			WHERE
+				ADMIN_YN 	= 'N'
+			 AND
+				DEL_YN		= 'N'
+			<if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(schKeyValue)">
+				AND 
+				<choose>
+					<when test="schKeyWord == 'userNm'">
+						USER_NM 
+					</when>
+				</choose>
+				LIKE '%' || #{schKeyValue} || '%'
+			</if>
+			ORDER BY
+				REG_DATE DESC
+		)
+		WHERE
+			ROWNUM BETWEEN #{firstIndex} AND #{lastIndex}
+	</select>
+
+
+	<select id="emplSearchCnt" parameterType="egovframework.user.vo.UserSearchVO" resultType="int">
+		SELECT
+			COUNT(1)	as	totalCnt
+		FROM
+			TBL_USER
+		WHERE
+			ADMIN_YN	= 'N'
+		 AND
+			DEL_YN		= 'N'
+			<if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(schKeyValue)">
+				AND 
+				<choose>
+					<when test="schKeyWord == 'userNm'">
+						USER_NM 
+					</when>
+				</choose>
+				LIKE '%' || #{schKeyValue} || '%'
+			</if>
+	</select>
+	
+	
+	<select id="emplList" parameterType="egovframework.user.vo.UserVO" resultType="egovframework.user.vo.UserVO">
+		SELECT
+			<include refid="userColumns" />		
+		FROM
+			TBL_USER
+		WHERE
+			ADMIN_YN	=	'N'
+		 AND
+		 	DEL_YN		=	'N'
+	</select>
+	
+	
+	<select id="emplSel" parameterType="egovframework.user.vo.UserVO" resultType="egovframework.user.vo.UserVO">
+		SELECT
+			(SELECT PART_NM FROM TBL_PART WHERE PART_ID=A.PART_ID) PARTNAME ,
+			(SELECT POS_NM FROM TBL_POS WHERE POS_ID=A.POS_ID) POSNAME ,
+			<include refid="userColumns" />
+		FROM
+			TBL_USER A
+		WHERE
+			USER_ID		=	#{userId}
+	</select>
+	
+	
+	<insert id="emplIns" parameterType="egovframework.user.vo.UserVO">
+		INSERT INTO
+			TBL_USER
+			(
+				USER_NM			,
+				USER_ID			,
+				USER_PW			,
+				PART_ID			,
+				POS_ID			,
+				REG_DATE		,
+				UPD_DATE		,
+				IMG_ORI_NAME	,
+				IMG_NAME		,
+				IMG_URL			,
+				ADMIN_YN		,
+				DEL_YN					
+			)
+		VALUES (
+			#{userNm}		,
+			#{userId}		,
+			#{userPw}		,
+			#{partId}		,
+			#{posId}		,
+			SYS_DATETIME	,
+			SYS_DATETIME	,
+			#{imgOriName}	,
+			#{imgName}		,
+			#{imgUrl}		,
+			'N'				,
+			'N'
+		)
+	</insert>
+	
+	
+	<update id="emplUpd" parameterType="egovframework.user.vo.UserVO">
+	
+		UPDATE
+			TBL_USER
+		SET
+			USER_NM			=	#{userNm}		,
+			PHONE			=	#{phone}		,
+			EMAIL			=	#{email}		,
+			PART_ID			=	#{partId}		,
+			POS_ID			=	#{posId}		,
+			IMG_ORI_NAME 	=	#{imgOriName}	,
+			IMG_NAME 		=	#{imgName}		,
+			IMG_URL 		=	#{imgUrl}		,
+			UPD_DATE		=	SYS_DATETIME
+		WHERE
+			USER_ID			=	#{userId}	
+	
+	</update>
+	
+	<update id="emplDel" parameterType="egovframework.user.vo.UserVO">
+	
+		UPDATE
+			TBL_USER
+		SET
+			UPD_DATE	=	SYS_DATETIME	,
+			DEL_YN		=	'Y'
+		WHERE
+			USER_ID		=	#{userId}	
+	
+	</update>
+	
+	<select id="userLogin" resultType="egovframework.user.vo.UserVO">
+		SELECT
+			<include refid="userColumns" />		
+		FROM
+			TBL_USER
+		WHERE
+			USER_ID 	=	#{userId}
+		 AND
+		 	USER_PW 	=	#{userPw}
+	</select>
+
+
+	<insert id="userJoin" parameterType="egovframework.user.vo.UserVO">
+		INSERT INTO
+			TBL_USER
+			(
+				USER_ID 	,
+				USER_PW 	,
+				USER_NM 	,
+				BIRTHDATE 	,
+				EMAIL	 	,
+				PHONE 		,
+				GENDER 		,
+				IMG_URL 	,
+				PART_ID 	,
+				POS_ID 		,
+				ADMIN_YN 	,
+				USER_IP 	,
+				ENT_DATE 	,
+				REG_DATE 	,
+				UPD_DATE 	,
+				EXT_DATE	,
+				DEL_YN		
+			)
+		VALUES (
+			#{userId}		,
+			#{userPw}		,
+			#{userNm}		,
+			#{birthdate}	,
+			#{email}		,
+			#{phone}		,
+			#{gender}		,
+			#{imgUrl}		,
+			#{partId}		,
+			#{posId}		,
+			'N'				,
+			#{userIp}		,
+			#{entDate}		,
+			SYS_DATETIME	,
+			SYS_DATETIME	,
+			#{extDate}		,
+			'N'
+		)
+		
+	</insert>
+	
+	
+	<select id="loginpw" parameterType="egovframework.user.vo.UserVO">
+		SELECT
+			USER_PW
+		FROM
+			TBL_USER
+		WHERE
+			USER_ID		=	#{userId}
+	
+	</select>
+	
+	<update id="userUpdate" parameterType="egovframework.user.vo.UserVO">
+		UPDATE
+			TBL_USER
+		SET
+			USER_PW			=	#{userPw}		,
+			USER_NM			=	#{userNm}		,
+			BIRTHDATE		=	#{birthdate}	,
+			GENDER			=	#{gender}		,
+			EMAIL			=	#{email}		,
+			PHONE			=	#{phone}		,
+			IMG_ORI_NAME 	=	#{imgOriName}	,
+			IMG_NAME 		=	#{imgName}		,
+			IMG_URL 		=	#{imgUrl}		,
+			UPD_DATE		=	SYS_DATETIME
+		WHERE
+			USER_ID		=	#{userId}
+	</update>
+	
+	
+	<delete id="userDelete" parameterType="egovframework.user.vo.UserVO">
+		UPDATE
+			TBL_USER
+		SET
+			DEL_YN		=	'Y'		,
+			UPD_DATE	=	SYS_DATETIME	
+		WHERE
+			USER_ID		= 	#{userId}
+		
+	</delete>
+	
+	
+	<delete id="imgDelete" parameterType="egovframework.user.vo.UserVO">
+		UPDATE
+			TBL_USER
+		SET
+			IMG_ORI_NAME	=	NULL,
+			IMG_NAME		=	NULL,
+			IMG_URL			=	NULL
+		WHERE
+			USER_ID		= 	#{userId}
+	</delete>
+
+
+	<select id="partLst" parameterType="egovframework.user.vo.PartVO" resultType="egovframework.user.vo.PartVO">
+		SELECT
+			<include refid="partColumns" />
+		FROM
+			TBL_PART
+		ORDER BY
+			PART_ID ASC
+	</select>
+
+	<select id="partCnt" parameterType="egovframework.user.vo.PartVO" resultType="int">
+		SELECT
+			COUNT(1)	as	totalCnt
+		FROM
+			TBL_PART
+	</select>
+
+	<select id="partSel" parameterType="egovframework.user.vo.PartVO" resultType="egovframework.user.vo.PartVO">
+		SELECT
+			*
+		FROM
+			TBL_PART
+		WHERE
+			PART_ID		=	#{partId}
+	</select>
+
+	<insert id="partIns" parameterType="egovframework.user.vo.PartVO">
+		INSERT INTO
+			TBL_PART
+			(
+				PART_ID		,
+				PART_NM
+			)
+		VALUES (
+			#{partId}	,
+			#{partNm}
+		)
+		
+	</insert>
+
+	<update id="partUpd" parameterType="egovframework.user.vo.PartVO">
+		UPDATE
+			TBL_PART
+		SET
+			PART_NM		=	#{partNm}
+		WHERE
+			PART_ID		=	#{partId}
+	</update>
+
+	<delete id="partDel" parameterType="egovframework.user.vo.PartVO">
+		DELETE
+		FROM
+			TBL_PART
+		WHERE
+			PART_ID		=	#{partId}
+	</delete>
+
+
+	<select id="posLst" resultType="egovframework.user.vo.PosVO">
+		SELECT
+			<include refid="posColumns" />
+		FROM
+			TBL_POS
+		ORDER BY
+			POS_ID ASC	
+	</select>
+
+	
+	<select id="posCnt" parameterType="egovframework.user.vo.PosVO" resultType="int">
+		SELECT
+			COUNT(1)	as	totalCnt
+		FROM
+			TBL_POS
+	</select>
+	
+	<select id="posSel" parameterType="egovframework.user.vo.PosVO" resultType="egovframework.user.vo.PosVO">
+		SELECT
+			*
+		FROM
+			TBL_POS
+		WHERE
+			POS_ID		=	#{posId}
+	</select>
+	
+	<insert id="posIns" parameterType="egovframework.user.vo.PosVO">
+		INSERT INTO
+			TBL_POS
+			(
+				POS_ID		,
+				POS_NM
+			)
+		VALUES (
+			#{posId}	,
+			#{posNm}
+		)
+		
+	</insert>
+
+	<update id="posUpd" parameterType="egovframework.user.vo.PosVO">
+		UPDATE
+			TBL_POS
+		SET
+			POS_NM		=	#{posNm}
+		WHERE
+			POS_ID		=	#{posId}
+			
+	</update>
+
+	<delete id="posDel" parameterType="egovframework.user.vo.PosVO">
+		DELETE
+		FROM
+			TBL_POS
+		WHERE
+			POS_ID		=	#{posId}
+	</delete>
+
+
+</mapper>

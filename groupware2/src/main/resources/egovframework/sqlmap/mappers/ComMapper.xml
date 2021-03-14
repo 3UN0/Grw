@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ComDAO">
+
+	<sql id="comColumns">
+		COM_ID			as 	comId		,
+		CONTENT_ID		as	contentId	,
+		COMMENTS		as	comments	,
+		USER_ID 		as 	userId		,
+		REG_DATE 		as 	regDate		,
+		MOD_DATE		as	modDate		,
+		DEL_YN			as 	delYn		
+	</sql>
+	
+	
+	<select id="comLst" parameterType="egovframework.groupware.vo.CommentVO" resultType="egovframework.groupware.vo.CommentVO">
+		SELECT
+			(SELECT USER_NM FROM TBL_USER WHERE USER_ID=A.USER_ID) USERNAME ,
+			<include refid="comColumns" />
+		FROM
+			TBL_COM A
+		WHERE
+			CONTENT_ID	=	#{contentId}	
+		 AND
+		 	DEL_YN 		=	'N'
+	</select>
+	
+	
+	<insert id="comWrt" parameterType="egovframework.groupware.vo.CommentVO">
+		INSERT INTO
+			TBL_COM
+			(
+				COM_ID		,
+				CONTENT_ID	,
+				USER_ID		,
+				COMMENTS	,
+				REG_DATE	,
+				MOD_DATE	,
+				DEL_YN
+			)
+		VALUES
+		(
+			com_code.next_value	,
+			#{contentId}		,
+			#{userId}			,
+			#{comments}			,
+			SYS_DATETIME		,
+			SYS_DATETIME		,
+			'N'
+		)
+	</insert>
+
+
+	<update id="comUpd" parameterType="egovframework.groupware.vo.CommentVO">
+		UPDATE
+			TBL_COM
+		SET
+			COMMENTS	=	#{comments_upd}	,
+			MOD_DATE	=	SYS_DATETIME
+		WHERE
+			COM_ID		=	#{comId}
+	</update>
+
+
+	<delete id="comDel" parameterType="egovframework.groupware.vo.CommentVO">
+		UPDATE
+			TBL_COM
+		SET
+			MOD_DATE	=	SYS_DATETIME	,
+			DEL_YN		=	'Y'
+		WHERE
+			COM_ID	=	#{comId}	
+		
+	</delete>
+
+</mapper>

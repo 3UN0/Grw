@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+     "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+     "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<!-- mngr -->
+	<definition name="web_none" template="/WEB-INF/jsp/egovframework/web/common/include/default_none_layout.jsp">
+		<put-attribute name="title"	value="" />
+		<put-attribute name="header" value="/WEB-INF/jsp/egovframework/web/common/include/default_none_header.jsp" />
+		<put-attribute name="javascript" value="/WEB-INF/jsp/egovframework/web/common/include/javascript.jsp" />
+	</definition>
+
+	<!-- mngr -->
+	<definition name="mngr" template="/WEB-INF/jsp/egovframework/mngr/common/include/mngr_default_layout.jsp">
+		<put-attribute name="title"	value="" />
+		<put-attribute name="header" value="/WEB-INF/jsp/egovframework/mngr/common/include/mngr_default_header.jsp" />
+		<put-attribute name="javascript" value="/WEB-INF/jsp/egovframework/mngr/common/include/javascript.jsp" />
+	</definition>
+	
+	<!-- grw -->
+	<definition name="grw" template="/WEB-INF/jsp/egovframework/grw/common/include/mngr_default_layout.jsp">
+		<put-attribute name="title"	value="" />
+		<put-attribute name="header" value="/WEB-INF/jsp/egovframework/grw/common/include/mngr_default_header.jsp" />
+		<put-attribute name="javascript" value="/WEB-INF/jsp/egovframework/grw/common/include/javascript.jsp" />
+	</definition>
+
+</tiles-definitions>
