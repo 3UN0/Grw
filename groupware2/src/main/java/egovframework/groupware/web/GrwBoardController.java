@@ -280,29 +280,7 @@ public class GrwBoardController {
 			return ValidatorUtil.resultSuccess(result);
 		}*/
 		
-		
-		/*@PostMapping("/grw/board/contUpd.do")
-		public HashMap<String, Object> contUpdAJAX2(ContentVO contentVO, BindingResult _result, MultipartFile[] uploadFile, MultipartHttpServletRequest request) throws Exception {
-			new GroupwareValidator().validate(contentVO, _result);
-			
-			if(uploadFile.length) {	// 첨부파일 변경
-				contentVO.setFileUrl(fileUploadService.restore(file));
-				contentVO.setFileOriName(uploadFile.getOriginalFilename());
-				contentVO.setFileName(contentVO.getFileUrl().substring(contentVO.getFileUrl().lastIndexOf("/")+1));
-			} else {
-				HttpSession session = request.getSession();
-				String userid = (String) session.getAttribute("userId");
-				contentVO.setUserId(userid);
-				
-				ContentVO contUpd = boardService.contSel(contentVO);
-				contentVO.setFileUrl(contUpd.getFileUrl());
-			}
-			
-			int result = boardService.contUpd(contentVO);
-			return ValidatorUtil.resultSuccess(result);
-		}*/
-		
-		
+		// 수정
 		@PostMapping("/grw/board/contUpd.do")
 		public HashMap<String, Object> contUpdAJAX2(ContentVO contentVO, BindingResult _result, MultipartFile[] uploadFile, MultipartHttpServletRequest request) throws Exception {
 			new GroupwareValidator().validate(contentVO, _result);
